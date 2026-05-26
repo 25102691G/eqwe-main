@@ -17,9 +17,8 @@ import cv2
 import numpy as np
 
 SKIN_PROJECT_ROOT = Path(__file__).resolve().parents[2]
-REPOSITORY_ROOT = SKIN_PROJECT_ROOT.parent
-if str(REPOSITORY_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPOSITORY_ROOT))
+if str(SKIN_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(SKIN_PROJECT_ROOT))
 
 from tongue_diagnosis.app.demo_report import build_demo_report_payload
 from tongue_diagnosis.app.schemas import (
