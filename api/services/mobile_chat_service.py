@@ -61,6 +61,20 @@ def _normalize_responses_model_name(model_name: str) -> str:
     return str(model_name or "").removeprefix("openai:") or "gpt-5.4"
 
 
+def _chat_api_mode() -> str:
+    """Return the configured chat API protocol."""
+    configured = _pick_text(os.getenv("MOBILE_CHAT_API_MODE"), os.getenv("OPENAI_API_MODE")).lower()
+    if configured in {"chat", "chat_completions", "chat-completions"}:
+        return "chat_completions"
+    if configured in {"responses", "response"}:
+        return "responses"
+
+    base_url = _pick_text(os.getenv("OPENAI_BASE_URL")).lower()
+    if "deepseek" in base_url:
+        return "chat_completions"
+    return "responses"
+
+
 def _responses_temperature() -> float:
     """Return the configured temperature for mobile chat responses."""
     try:
@@ -406,6 +420,60 @@ def _build_response_input(
     return input_items
 
 
+def _build_chat_completion_messages(
+    session: dict[str, Any],
+    user_text: str,
+    attachments: list[dict[str, Any]],
+) -> list[dict[str, str]]:
+    """Build OpenAI-compatible Chat Completions messages."""
+    messages = [
+        {
+            "role": "system",
+            "content": _build_response_instructions(session),
+        }
+    ]
+    history = list(session.get("messages") or [])[-MAX_HISTORY_MESSAGES:]
+    for item in history:
+        if not isinstance(item, dict):
+            continue
+        if str(item.get("message_type") or "") in CONTEXT_MESSAGE_TYPES:
+            continue
+        role = str(item.get("role") or "")
+        if role not in {"assistant", "user"}:
+            continue
+        content = _history_message_text(item)
+        if content:
+            messages.append({"role": role, "content": content})
+
+    messages.append(
+        {
+            "role": "user",
+            "content": _build_latest_user_text(user_text, attachments),
+        }
+    )
+    return messages
+
+
+def _extract_chat_completion_text(response: Any) -> str:
+    """Extract plain text from a Chat Completions response."""
+    choices = getattr(response, "choices", None)
+    if not choices:
+        return ""
+    message = getattr(choices[0], "message", None)
+    content = getattr(message, "content", "")
+    return content.strip() if isinstance(content, str) else ""
+
+
+def _extract_chat_completion_stream_delta(event: Any) -> str:
+    """Extract text delta from one Chat Completions stream event."""
+    choices = getattr(event, "choices", None)
+    if not choices:
+        return ""
+    delta = getattr(choices[0], "delta", None)
+    content = getattr(delta, "content", "")
+    return content if isinstance(content, str) else ""
+
+
 def _fallback_reply(
     session: dict[str, Any],
     user_text: str,
@@ -459,14 +527,22 @@ def generate_reply(
 
     try:
         client = _build_responses_client()
-        response = client.responses.create(
-            model=_normalize_responses_model_name(MOBILE_CHAT_MODEL),
-            instructions=_build_response_instructions(session),
-            input=_build_response_input(session, user_text, resolved_attachments),
-            temperature=_responses_temperature(),
-            store=False,
-        )
-        reply = _extract_response_output_text(response)
+        if _chat_api_mode() == "chat_completions":
+            response = client.chat.completions.create(
+                model=_normalize_responses_model_name(MOBILE_CHAT_MODEL),
+                messages=_build_chat_completion_messages(session, user_text, resolved_attachments),
+                temperature=_responses_temperature(),
+            )
+            reply = _extract_chat_completion_text(response)
+        else:
+            response = client.responses.create(
+                model=_normalize_responses_model_name(MOBILE_CHAT_MODEL),
+                instructions=_build_response_instructions(session),
+                input=_build_response_input(session, user_text, resolved_attachments),
+                temperature=_responses_temperature(),
+                store=False,
+            )
+            reply = _extract_response_output_text(response)
         if reply:
             return reply
     except Exception as exc:  # noqa: BLE001
@@ -495,17 +571,28 @@ def stream_reply_chunks(
         try:
             client = _build_responses_client()
             chunks: list[str] = []
-            for event in client.responses.create(
-                model=_normalize_responses_model_name(MOBILE_CHAT_MODEL),
-                instructions=_build_response_instructions(session),
-                input=_build_response_input(session, user_text, resolved_attachments),
-                temperature=_responses_temperature(),
-                store=False,
-                stream=True,
-            ):
-                text = _extract_response_stream_delta(event)
-                if text:
-                    chunks.append(text)
+            if _chat_api_mode() == "chat_completions":
+                for event in client.chat.completions.create(
+                    model=_normalize_responses_model_name(MOBILE_CHAT_MODEL),
+                    messages=_build_chat_completion_messages(session, user_text, resolved_attachments),
+                    temperature=_responses_temperature(),
+                    stream=True,
+                ):
+                    text = _extract_chat_completion_stream_delta(event)
+                    if text:
+                        chunks.append(text)
+            else:
+                for event in client.responses.create(
+                    model=_normalize_responses_model_name(MOBILE_CHAT_MODEL),
+                    instructions=_build_response_instructions(session),
+                    input=_build_response_input(session, user_text, resolved_attachments),
+                    temperature=_responses_temperature(),
+                    store=False,
+                    stream=True,
+                ):
+                    text = _extract_response_stream_delta(event)
+                    if text:
+                        chunks.append(text)
             if chunks:
                 return chunks, "".join(chunks)
         except Exception as exc:  # noqa: BLE001
