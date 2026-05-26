@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import mimetypes
 from concurrent.futures import ThreadPoolExecutor
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -399,7 +399,7 @@ def analyze_face_image_to_context(
     ]
 
     metadata = {
-        "analysis_timestamp": datetime.now(UTC).isoformat(),
+        "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
         "image_info": {
             "original_size": {
                 "width": int(aligned_image.shape[1]),

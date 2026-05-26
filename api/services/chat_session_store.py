@@ -5,14 +5,14 @@ from __future__ import annotations
 import json
 import uuid
 from copy import deepcopy
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 
 def _utc_now() -> str:
     """Return the current UTC timestamp in ISO format."""
-    return datetime.now(UTC).isoformat()
+    return datetime.now(timezone.utc).isoformat()
 
 
 def _message_timestamp(message: dict[str, Any]) -> str:

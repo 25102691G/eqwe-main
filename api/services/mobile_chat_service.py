@@ -43,9 +43,9 @@ SYSTEM_PROMPT = """你是 Peace Skin 小程序里的健康状态辅助问询助�
 
 def _utc_now() -> str:
     """Return the current UTC timestamp in ISO format."""
-    from datetime import UTC, datetime
+    from datetime import datetime, timezone
 
-    return datetime.now(UTC).isoformat()
+    return datetime.now(timezone.utc).isoformat()
 
 
 def _pick_text(*values: object) -> str:
