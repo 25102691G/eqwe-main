@@ -1,0 +1,40 @@
+.empty-history {
+  margin-top: 32rpx;
+}
+
+.history-action {
+  margin-top: 24rpx;
+}
+
+.report-card {
+  padding: 28rpx;
+}
+
+.report-head {
+  align-items: center;
+}
+
+.report-title {
+  margin-top: 18rpx;
+}
+
+.report-folder {
+  margin-top: 6rpx;
+}
+
+.report-summary {
+  margin-top: 16rpx;
+  color: var(--ink);
+  font-size: 28rpx;
+  line-height: 1.6;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.report-foot {
+  margin-top: 20rpx;
+  padding-top: 18rpx;
+  border-top: 1rpx solid var(--line);
+}

@@ -1,0 +1,36 @@
+<view class="page page--sub">
+  <view class="top-title">
+    <view>
+      <view class="h1">历史报告</view>
+      <view class="caption">共 {{totalCount}} 份舌象/面象检测记录</view>
+    </view>
+  </view>
+
+  <view wx:if="{{!reports.length}}" class="card empty-history">
+    <view class="h2">暂无历史检测报告</view>
+    <view class="caption">完成一次舌象或面象辅助分析后，报告会保存在这里。</view>
+    <button class="button button--primary history-action" bindtap="goDiagnosis">开始检测</button>
+  </view>
+
+  <view wx:else>
+    <view
+      wx:for="{{reports}}"
+      wx:key="reportId"
+      class="card report-card"
+      data-report-id="{{item.reportId}}"
+      bindtap="openReport"
+    >
+      <view class="row report-head">
+        <view class="pill pill--{{item.typeClass}}">{{item.typeLabel}}</view>
+        <view class="caption">{{item.time}}</view>
+      </view>
+      <view class="h2 report-title">{{item.title}}</view>
+      <view class="caption report-folder" wx:if="{{item.folder}}">目录 {{item.folder}}</view>
+      <view class="report-summary">{{item.summary}}</view>
+      <view class="row report-foot">
+        <view class="caption">参考结果 {{item.scoreText}}</view>
+        <view class="caption">查看详情 ›</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,22 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/plan/index",
+    "pages/ai/index",
+    "pages/store/index",
+    "pages/mine/index",
+    "pages/diagnosis/index",
+    "pages/report-history/index",
+    "pages/chat-history/index",
+    "pages/result/result"
+  ],
+  "window": {
+    "navigationBarTitleText": "中医健康助手",
+    "navigationBarBackgroundColor": "#f6f8f5",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f6f8f5",
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "AI问诊",
+  "usingComponents": {
+    "app-tabbar": "/components/app-tabbar/index"
+  }
+}

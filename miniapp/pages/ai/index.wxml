@@ -1,0 +1,78 @@
+<view class="page ai-page">
+  <view class="ai-header">
+    <view class="ai-title-block">
+      <view class="h2">AI问诊</view>
+      <view class="caption header-subtitle">{{diagnosisContext ? '已关联报告上下文' : '可先写入最近报告'}}</view>
+    </view>
+  </view>
+
+  <view class="ai-header-actions">
+    <button class="new-chat-button muted" bindtap="openChatHistory">历史</button>
+    <button class="new-chat-button" bindtap="startNewSession">新对话</button>
+  </view>
+
+  <view class="context-strip">
+    <view class="context-copy">
+      <view class="context-title">{{diagnosisContext ? '本次报告上下文' : '暂未获取检测报告'}}</view>
+      <view class="context-labels" wx:if="{{diagnosisContext && diagnosisContext.contextLabels}}">{{diagnosisContext.contextLabels}}</view>
+      <view class="caption context-summary" wx:if="{{diagnosisContext}}">{{diagnosisContext.summary}}</view>
+      <view class="caption context-summary" wx:else>完成舌象或面象分析后，可把报告带入问诊。</view>
+    </view>
+    <view class="context-buttons">
+      <button class="text-button" bindtap="useLatestReport">导入最新报告</button>
+      <button class="text-button text-button--muted" bindtap="removeContext" wx:if="{{diagnosisContext}}">移除</button>
+    </view>
+  </view>
+
+  <scroll-view class="chat-scroll" scroll-y="true" scroll-with-animation="true">
+    <view class="empty-chat" wx:if="{{!messages.length}}">
+      <view class="caption">可以先问“你是谁”，或者选择下面的常用提问。</view>
+    </view>
+    <view
+      wx:for="{{messages}}"
+      wx:key="message_id"
+      class="message-row message-row--{{item.role}}"
+    >
+      <view class="bubble bubble--{{item.role}}">
+        <view class="bubble-role">{{item.roleLabel}}</view>
+        <view class="bubble-content">{{item.contentDisplay}}</view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="input-dock">
+    <view class="quick-panel">
+      <view class="quick-panel-title">常用提问</view>
+      <scroll-view scroll-x="true" class="quick-scroll" enhanced="true" show-scrollbar="false">
+        <view class="quick-row">
+          <view
+            wx:for="{{quickPrompts}}"
+            wx:key="key"
+            class="quick-chip"
+            data-key="{{item.key}}"
+            bindtap="useQuickPrompt"
+          >
+            {{item.title}}
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <view class="error dock-error" wx:if="{{errorMessage}}">{{errorMessage}}</view>
+
+    <view class="composer">
+      <textarea
+        class="composer-input"
+        value="{{inputText}}"
+        placeholder="输入你的问题"
+        maxlength="-1"
+        auto-height="true"
+        bindinput="handleInput"
+      />
+      <button class="send-button" bindtap="sendMessage" loading="{{loading}}" disabled="{{loading}}">
+        {{loading ? '...' : '发送'}}
+      </button>
+    </view>
+  </view>
+  <app-tabbar active="ai" />
+</view>

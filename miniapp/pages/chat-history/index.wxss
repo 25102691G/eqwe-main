@@ -1,0 +1,74 @@
+.history-new {
+  min-width: 144rpx;
+  min-height: 68rpx;
+  font-size: 24rpx;
+}
+
+.empty-history {
+  margin-top: 32rpx;
+}
+
+.history-action {
+  margin-top: 24rpx;
+}
+
+.session-card {
+  padding: 28rpx;
+}
+
+.session-head {
+  align-items: flex-start;
+}
+
+.session-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 32rpx;
+}
+
+.session-meta {
+  margin-top: 8rpx;
+}
+
+.session-context {
+  margin-top: 14rpx;
+}
+
+.session-preview {
+  margin-top: 16rpx;
+  color: var(--ink);
+  font-size: 28rpx;
+  line-height: 1.6;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.session-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 22rpx;
+  margin-top: 22rpx;
+  padding-top: 18rpx;
+  border-top: 1rpx solid var(--line);
+}
+
+.session-action {
+  min-height: 44rpx;
+  padding: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 24rpx;
+  font-weight: 800;
+  line-height: 44rpx;
+}
+
+.session-action.primary {
+  color: var(--green);
+}
+
+.session-action.danger {
+  color: var(--coral);
+}

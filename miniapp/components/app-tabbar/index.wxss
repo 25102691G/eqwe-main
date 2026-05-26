@@ -1,0 +1,68 @@
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  height: 118rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #dce5e0;
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.tabbar-item {
+  width: 20%;
+  min-height: 96rpx;
+  text-align: center;
+  color: #89948f;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+.tabbar-item--active {
+  color: #0d7a63;
+}
+
+.tabbar-icon {
+  position: relative;
+  width: 46rpx;
+  height: 46rpx;
+  margin: 0 auto 8rpx;
+}
+
+.tabbar-symbol {
+  width: 36rpx;
+  height: 36rpx;
+  margin: 5rpx auto;
+  border: 5rpx solid currentColor;
+}
+
+.tabbar-symbol--home {
+  border-radius: 8rpx;
+  border-top-width: 0;
+  transform: translateY(8rpx);
+}
+
+.tabbar-symbol--plan {
+  border-radius: 6rpx;
+}
+
+.tabbar-symbol--ai {
+  border-radius: 12rpx;
+}
+
+.tabbar-symbol--store {
+  border-radius: 8rpx;
+  border-top-width: 12rpx;
+}
+
+.tabbar-symbol--mine {
+  border-radius: 50%;
+}
+
+.tabbar-label {
+  line-height: 1.2;
+}

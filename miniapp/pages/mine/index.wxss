@@ -1,0 +1,45 @@
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 28rpx;
+  margin-top: 24rpx;
+}
+
+.avatar {
+  width: 112rpx;
+  height: 112rpx;
+  border: 4rpx solid var(--green);
+  border-radius: 50%;
+  background: var(--green-soft);
+}
+
+.profile-pill {
+  margin-top: 12rpx;
+}
+
+.menu-row {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.menu-copy {
+  flex: 1;
+}
+
+.arrow {
+  color: var(--muted);
+  font-size: 42rpx;
+}
+
+.setting-input {
+  margin-top: 18rpx;
+}
+
+.setting-actions {
+  margin-top: 18rpx;
+}
+
+.setting-actions .button {
+  flex: 1;
+}

@@ -1,0 +1,133 @@
+.mode-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18rpx;
+  margin: 28rpx 0;
+}
+
+.mode-tab {
+  min-height: 84rpx;
+  border: 1rpx solid var(--line);
+  border-radius: 16rpx;
+  background: var(--surface);
+  color: var(--muted);
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: 800;
+  line-height: 84rpx;
+}
+
+.mode-tab--active {
+  border-color: var(--green);
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.tip-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  padding: 12rpx 0;
+}
+
+.tip-dot {
+  width: 12rpx;
+  height: 12rpx;
+  margin-top: 16rpx;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.upload-card .button {
+  margin-top: 18rpx;
+}
+
+.file-meta {
+  margin-bottom: 18rpx;
+  color: var(--muted);
+  font-size: 24rpx;
+}
+
+.retry-button {
+  margin-top: 16rpx;
+}
+
+.empty-upload {
+  min-height: 360rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.upload-plus {
+  width: 96rpx;
+  height: 96rpx;
+  margin-bottom: 22rpx;
+  border-radius: 50%;
+  background: var(--green-soft);
+  color: var(--green);
+  font-size: 70rpx;
+  font-weight: 300;
+  line-height: 88rpx;
+}
+
+.step-row {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.step-row:last-child {
+  border-bottom: 0;
+}
+
+.step-index {
+  width: 52rpx;
+  height: 52rpx;
+  border-radius: 50%;
+  background: var(--surface-soft);
+  color: var(--muted);
+  text-align: center;
+  font-size: 24rpx;
+  font-weight: 900;
+  line-height: 52rpx;
+}
+
+.step-row--active .step-index {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.step-row--done .step-index {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.step-row--error .step-index {
+  background: var(--coral-soft);
+  color: var(--coral);
+}
+
+.step-label {
+  flex: 1;
+  font-size: 28rpx;
+  font-weight: 800;
+}
+
+.step-status {
+  color: var(--muted);
+  font-size: 22rpx;
+  text-transform: uppercase;
+}
+
+.task-meta {
+  margin-top: 18rpx;
+}
+
+.result-button {
+  margin-top: 22rpx;
+}

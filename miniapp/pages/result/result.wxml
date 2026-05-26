@@ -1,0 +1,109 @@
+<view class="page page--sub">
+  <view wx:if="{{!hasResult}}" class="card empty-result">
+    <view class="h2">暂无缓存结果</view>
+    <view class="caption">请先完成一次舌象或面象辅助分析。</view>
+    <button class="button button--primary" bindtap="goHome">返回首页</button>
+  </view>
+
+  <block wx:if="{{hasResult}}">
+    <view class="top-title">
+      <view>
+        <view class="h1">{{analysisModeLabel}}报告</view>
+        <view class="caption">目录 {{folderLabel}} <text wx:if="{{analysisTimestamp}}"> · {{analysisTimestamp}}</text></view>
+      </view>
+    </view>
+    <view class="notice">{{disclaimerText}}</view>
+
+    <view class="card context-status">
+      <view class="row">
+        <view>
+          <view class="h3">聊天上下文</view>
+          <view class="caption">{{diagnosisStatusDisplay}}</view>
+        </view>
+        <view class="pill pill--green" wx:if="{{diagnosisLinked}}">已带入</view>
+        <view class="pill pill--blue" wx:if="{{linkingDiagnosis}}">写入中</view>
+      </view>
+    </view>
+
+    <view class="card summary-card">
+      <view class="row">
+        <view>
+          <view class="h2">{{overallTitle}}</view>
+          <view class="caption">{{scoreLabel}}</view>
+        </view>
+        <view class="score-box">
+          <view class="score-value">{{overallReport.totalScoreText}}</view>
+        </view>
+      </view>
+      <view class="summary-text">{{overallReport.summary}}</view>
+    </view>
+
+    <view class="section-title">关键指标</view>
+    <view class="metric-grid">
+      <view wx:for="{{summaryCards}}" wx:key="key" class="card metric-card metric-card--{{item.accent}}">
+        <view class="caption">{{item.title}}</view>
+        <view class="metric-score">{{item.scoreText}}</view>
+        <view class="caption">{{item.description}}</view>
+      </view>
+    </view>
+
+    <view class="card" wx:if="{{hasConstitutionCards}}">
+      <view class="h3">九大体质倾向参考</view>
+      <view wx:for="{{constitutionCards}}" wx:key="constitution" class="constitution-row">
+        <view class="row">
+          <view class="h3">{{item.constitution}}</view>
+          <view class="pill pill--amber">{{item.scoreText}}</view>
+        </view>
+        <view class="caption">{{item.level}} · 置信度 {{item.confidence}}</view>
+        <view class="caption">{{item.note}}</view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="tab-row">
+        <view class="tab {{activeTab === 'summary' ? 'tab--active' : ''}}" data-value="summary" bindtap="switchTab">概览</view>
+        <view class="tab {{activeTab === 'gallery' ? 'tab--active' : ''}}" data-value="gallery" bindtap="switchTab">图库</view>
+        <view class="tab {{activeTab === 'json' ? 'tab--active' : ''}}" data-value="json" bindtap="switchTab">JSON</view>
+      </view>
+
+      <view wx:if="{{activeTab === 'summary'}}">
+        <view class="caption">结果图片：{{galleryCount}}</view>
+        <view class="source-grid">
+          <view wx:if="{{sourceImagePath}}" class="source-item">
+            <view class="caption">源照片</view>
+            <image class="result-image" src="{{sourceImagePath}}" mode="aspectFill" bindtap="previewSourceImage" />
+          </view>
+          <view wx:if="{{showAlignedImage}}" class="source-item">
+            <view class="caption">对齐图</view>
+            <image class="result-image" src="{{alignedImageUrl}}" mode="aspectFill" bindtap="previewAlignedImage" />
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{activeTab === 'gallery'}}">
+        <view wx:if="{{gallery.length}}">
+          <view wx:for="{{gallery}}" wx:key="filename" class="gallery-card" data-url="{{item.url}}" bindtap="previewGalleryImage">
+            <image class="gallery-image" src="{{item.url}}" mode="widthFix" />
+            <view class="row gallery-meta">
+              <view class="h3">{{item.label}}</view>
+              <view class="caption">{{item.filename}}</view>
+            </view>
+          </view>
+        </view>
+        <view class="caption" wx:else>当前没有可展示的结果图片。</view>
+      </view>
+
+      <view wx:if="{{activeTab === 'json'}}">
+        <button class="button button--ghost" bindtap="copyJson">复制 JSON</button>
+        <scroll-view scroll-y="true" class="json-box">
+          <text selectable="true" class="json-text">{{rawJson}}</text>
+        </scroll-view>
+      </view>
+    </view>
+
+    <view class="row action-row">
+      <button class="button button--ghost" bindtap="goHome">回首页</button>
+      <button class="button button--primary" bindtap="goAi">带报告问 AI</button>
+    </view>
+  </block>
+</view>

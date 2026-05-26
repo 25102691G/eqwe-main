@@ -1,0 +1,86 @@
+.focus-title {
+  margin-top: 16rpx;
+  color: var(--ink);
+  font-size: 40rpx;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.focus-summary {
+  margin-top: 18rpx;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 18rpx;
+}
+
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 22rpx;
+}
+
+.task-slot {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 16rpx;
+  text-align: center;
+  line-height: 80rpx;
+  font-size: 24rpx;
+  font-weight: 900;
+}
+
+.task-slot--green {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.task-slot--amber {
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+
+.task-slot--blue {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.task-copy {
+  flex: 1;
+}
+
+.module-card {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  min-height: 100rpx;
+}
+
+.module-dot {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 12rpx;
+}
+
+.module-dot--green {
+  background: var(--green-soft);
+}
+
+.module-dot--amber {
+  background: var(--amber-soft);
+}
+
+.module-dot--blue {
+  background: var(--blue-soft);
+}
+
+.module-dot--coral {
+  background: var(--coral-soft);
+}
+
+.ask-button {
+  margin-top: 32rpx;
+}

@@ -1,0 +1,44 @@
+<view class="page">
+  <view class="top-title">
+    <view>
+      <view class="h1">本周调理目标</view>
+      <view class="caption">基于报告与问询生成，可按完成情况更新</view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="caption">重点关注</view>
+    <view class="focus-title">{{focus.title}}</view>
+    <view class="tag-row">
+      <view wx:for="{{focus.tags}}" wx:key="*this" class="pill pill--green">{{item}}</view>
+    </view>
+    <view class="caption focus-summary">{{focus.summary}}</view>
+  </view>
+
+  <view class="section-title">今日任务</view>
+  <view
+    wx:for="{{tasks}}"
+    wx:key="slot"
+    class="card task-row"
+  >
+    <view class="task-slot task-slot--{{item.color}}">{{item.slot}}</view>
+    <view class="task-copy">
+      <view class="h3">{{item.title}}</view>
+      <view class="caption">可在 AI 问诊里追问原因和替代方案</view>
+    </view>
+  </view>
+
+  <view class="section-title">方案模块</view>
+  <view class="grid-2">
+    <view wx:for="{{modules}}" wx:key="title" class="card module-card">
+      <view class="module-dot module-dot--{{item.color}}"></view>
+      <view>
+        <view class="h3">{{item.title}}</view>
+        <view class="caption">{{item.desc}}</view>
+      </view>
+    </view>
+  </view>
+
+  <button class="button button--primary ask-button" bindtap="askAi">带方案问 AI</button>
+  <app-tabbar active="plan" />
+</view>

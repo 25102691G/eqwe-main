@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "中医健康助手",
+  "usingComponents": {
+    "app-tabbar": "/components/app-tabbar/index"
+  }
+}

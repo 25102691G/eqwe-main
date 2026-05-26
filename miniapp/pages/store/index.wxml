@@ -1,0 +1,27 @@
+<view class="page">
+  <view class="top-title">
+    <view>
+      <view class="h1">护理与健康好物</view>
+      <view class="caption">按体质倾向与肤况建议做轻量推荐</view>
+    </view>
+  </view>
+
+  <input class="input" placeholder="搜索护理、茶饮、课程" />
+
+  <view class="category-row">
+    <view wx:for="{{categories}}" wx:key="*this" class="pill pill--amber">{{item}}</view>
+  </view>
+
+  <view class="section-title">推荐</view>
+  <view class="grid-2">
+    <view wx:for="{{products}}" wx:key="title" class="card product-card">
+      <view class="product-image product-image--{{item.color}}">
+        <view class="product-ring"></view>
+      </view>
+      <view class="h3 product-title">{{item.title}}</view>
+      <view class="caption">{{item.desc}}</view>
+      <view class="product-price">{{item.price}}</view>
+    </view>
+  </view>
+  <app-tabbar active="store" />
+</view>

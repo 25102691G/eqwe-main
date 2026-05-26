@@ -1,0 +1,89 @@
+name: skin-chat-infra
+
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: skin-minio
+    restart: unless-stopped
+    ports:
+      - "${MINIO_API_PORT:-19000}:9000"
+      - "${MINIO_CONSOLE_PORT:-19001}:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    volumes:
+      - ./volumes/chat_minio/data:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - chat-infra
+
+  minio-init:
+    image: minio/mc:latest
+    container_name: skin-minio-init
+    depends_on:
+      - minio
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      MINIO_BUCKET_NAME: ${MINIO_BUCKET_NAME:-aitest}
+    entrypoint:
+      - /bin/sh
+      - -c
+      - >
+        until mc alias set local http://minio:9000 "$$MINIO_ROOT_USER" "$$MINIO_ROOT_PASSWORD"; do
+          echo "waiting for minio";
+          sleep 2;
+        done;
+        mc mb -p local/"$$MINIO_BUCKET_NAME" || true;
+        mc anonymous set private local/"$$MINIO_BUCKET_NAME" || true
+    restart: "no"
+    networks:
+      - chat-infra
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: skin-postgres
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_HOST_PORT:-15432}:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-chatapp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-chatapp}
+      POSTGRES_DB: ${POSTGRES_DB:-skin_chat}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./volumes/chat_postgres/data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-chatapp} -d ${POSTGRES_DB:-skin_chat}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - chat-infra
+
+  redis:
+    image: redis:7-alpine
+    container_name: skin-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_HOST_PORT:-16379}:6379"
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-chatredis}
+      REDISCLI_AUTH: ${REDIS_PASSWORD:-chatredis}
+    command:
+      - sh
+      - -c
+      - redis-server --appendonly yes --requirepass "$$REDIS_PASSWORD"
+    volumes:
+      - ./volumes/chat_redis/data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a ${REDIS_PASSWORD:-chatredis} ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - chat-infra
+
+networks:
+  chat-infra:
+    driver: bridge

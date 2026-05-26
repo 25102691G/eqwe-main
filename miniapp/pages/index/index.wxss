@@ -1,0 +1,86 @@
+.overview-card {
+  padding: 34rpx;
+}
+
+.overview-pill {
+  margin-top: 16rpx;
+}
+
+.score-row {
+  display: flex;
+  align-items: baseline;
+  gap: 18rpx;
+  margin: 28rpx 0 10rpx;
+}
+
+.score {
+  color: var(--green);
+  font-size: 92rpx;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.task-card {
+  min-height: 216rpx;
+}
+
+.task-title {
+  margin-top: 34rpx;
+  margin-bottom: 10rpx;
+}
+
+.icon-line {
+  width: 34rpx;
+  height: 34rpx;
+  margin: 19rpx;
+  border: 5rpx solid currentColor;
+  border-radius: 10rpx;
+  color: var(--green);
+}
+
+.mini-icon--blue .icon-line {
+  color: var(--blue);
+}
+
+.mini-icon--amber .icon-line {
+  color: var(--amber);
+  border-radius: 50%;
+}
+
+.mini-icon--coral .icon-line {
+  color: var(--coral);
+  border-radius: 50%;
+}
+
+.recent-title {
+  margin-top: 28rpx;
+  color: var(--ink);
+  font-size: 32rpx;
+  font-weight: 800;
+}
+
+.recent-summary {
+  margin-top: 14rpx;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 22rpx;
+}
+
+.recent-actions {
+  margin-top: 24rpx;
+}
+
+.recent-actions .button {
+  flex: 1;
+  min-height: 72rpx;
+}
+
+.link {
+  color: var(--green);
+  font-size: 24rpx;
+  font-weight: 800;
+}

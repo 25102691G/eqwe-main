@@ -1,0 +1,65 @@
+<view class="page page--sub">
+  <view class="top-title">
+    <view>
+      <view class="h1">{{modeTitle}}</view>
+      <view class="caption">{{modeSubtitle}}</view>
+    </view>
+  </view>
+  <view class="notice">仅作健康状态辅助分析和生活护理建议，不替代医生面诊。</view>
+
+  <view class="mode-tabs">
+    <view class="mode-tab {{activeMode === 'face' ? 'mode-tab--active' : ''}}" data-mode="face" bindtap="switchMode">
+      面象肤况
+    </view>
+    <view class="mode-tab {{activeMode === 'tongue' ? 'mode-tab--active' : ''}}" data-mode="tongue" bindtap="switchMode">
+      舌象一期
+    </view>
+  </view>
+
+  <view class="section-title">{{modeLabel}}拍摄要点</view>
+  <view class="card">
+    <view wx:for="{{photoTips}}" wx:key="*this" class="tip-row">
+      <view class="tip-dot"></view>
+      <view class="caption">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="card upload-card" wx:if="{{selectedImagePath}}">
+    <view class="row file-meta">
+      <view>{{selectedImageName}}</view>
+      <view>{{selectedImageSize}}</view>
+    </view>
+    <image class="preview-image" src="{{selectedImagePath}}" mode="aspectFill" bindtap="previewSelectedImage" />
+    <button class="button button--primary" bindtap="startAnalysis" loading="{{loading}}" disabled="{{loading}}">
+      {{actionButtonText}}
+    </button>
+    <button class="button button--ghost retry-button" bindtap="chooseImage" disabled="{{loading}}">
+      重新选择
+    </button>
+  </view>
+
+  <view class="card empty-upload" wx:else bindtap="chooseImage">
+    <view class="upload-plus">+</view>
+    <view class="h3">选择{{modeLabel}}照片</view>
+    <view class="caption">{{currentStepText}}</view>
+  </view>
+
+  <view class="section-title">队列进度</view>
+  <view class="card">
+    <view wx:for="{{steps}}" wx:key="key" class="step-row step-row--{{item.status}}">
+      <view class="step-index">{{index + 1}}</view>
+      <view class="step-label">{{item.label}}</view>
+      <view class="step-status">{{item.status}}</view>
+    </view>
+    <view class="notice">{{currentStepText}}</view>
+    <view class="caption task-meta" wx:if="{{taskId}}">任务：{{taskId}} · 状态：{{taskStateDisplay}}</view>
+  </view>
+
+  <view class="error" wx:if="{{errorMessage}}">{{errorMessage}}</view>
+
+  <view class="card" wx:if="{{workflowDone}}">
+    <view class="h3">最近一次结果</view>
+    <view class="caption">目录：{{latestFolderLabel}} · 结果图片：{{latestResultCount}}</view>
+    <button class="button button--primary result-button" bindtap="openResult">打开报告</button>
+  </view>
+</view>

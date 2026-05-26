@@ -1,0 +1,33 @@
+mediapipe==0.10.9
+Flask==3.1.2
+opencv-python==4.12.0.88
+boto3==1.40.55
+flask_cors==6.0.1
+python-dotenv==1.1.1
+requests==2.32.5  
+pydantic==2.12.3
+pydantic-settings==2.11.0
+pyjwt==2.10.1
+pypdf>=5.0.0
+langchain>=0.3.0
+langgraph>=0.2.0
+langchain-openai>=0.3.0
+openai>=2.0.0
+psycopg[binary]>=3.2.0
+redis>=5.0.0
+celery[redis]>=5.4.0
+
+# 深度学习框架
+torch>=2.0.0
+torchvision>=0.15.0
+onnxruntime>=1.16.0
+
+# 图像处理
+scikit-image>=0.21.0
+Pillow>=10.0.0
+numpy>=1.24.0
+
+# 生产环境部署
+gunicorn>=21.2.0
+supervisor>=4.2.5
+gevent>=23.9.1  # 可选：用于异步worker

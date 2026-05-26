@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "健康商城",
+  "usingComponents": {
+    "app-tabbar": "/components/app-tabbar/index"
+  }
+}

@@ -1,0 +1,64 @@
+<view class="page">
+  <view class="top-title">
+    <view>
+      <view class="h1">今天先看哪里？</view>
+      <view class="caption">舌象、面象、体质与 AI 问询统一管理</view>
+    </view>
+    <view class="pill pill--green">辅助建议</view>
+  </view>
+
+  <view class="card overview-card">
+    <view class="row">
+      <view class="h3">今日健康概览</view>
+      <view>
+        <view class="pill pill--blue">气虚倾向</view>
+        <view class="pill pill--amber overview-pill">湿热关注</view>
+      </view>
+    </view>
+    <view class="score-row">
+      <view class="score">{{overviewScore}}</view>
+      <view class="caption">综合参考分</view>
+    </view>
+    <view class="caption">最近一次：舌象质量通过，面部状态可复核</view>
+  </view>
+
+  <view class="section-title">核心任务</view>
+  <view class="grid-2">
+    <view
+      wx:for="{{taskCards}}"
+      wx:key="key"
+      class="card task-card"
+      data-key="{{item.key}}"
+      bindtap="openTask"
+    >
+      <view class="mini-icon {{item.iconClass}}">
+        <view class="icon-line"></view>
+      </view>
+      <view class="h3 task-title">{{item.title}}</view>
+      <view class="caption">{{item.desc}}</view>
+    </view>
+  </view>
+
+  <view class="card recent-card" wx:if="{{report}}">
+    <view class="row">
+      <view class="h3">最近报告</view>
+      <view class="link" bindtap="openReport">查看全部</view>
+    </view>
+    <view class="recent-title">{{report.title}}</view>
+    <view class="caption recent-summary">{{report.summary}}</view>
+    <view class="tag-row">
+      <view wx:for="{{report.tags}}" wx:key="*this" class="pill pill--green">{{item}}</view>
+    </view>
+    <view class="row recent-actions">
+      <button class="button button--soft" bindtap="openTask" data-key="chat">可问 AI</button>
+      <button class="button button--ghost" bindtap="openPlan">生成方案</button>
+    </view>
+  </view>
+
+  <view class="card recent-card" wx:else>
+    <view class="h3">最近报告</view>
+    <view class="caption recent-summary">还没有完成图像辅助分析，可以先拍舌面或上传面部图。</view>
+    <button class="button button--primary" bindtap="openTask" data-key="tongue">开始舌象分析</button>
+  </view>
+  <app-tabbar active="home" />
+</view>

@@ -1,0 +1,61 @@
+<view class="page">
+  <view class="card profile-card">
+    <view class="avatar"></view>
+    <view>
+      <view class="h2">未命名用户</view>
+      <view class="caption">{{profileStats}}</view>
+      <view class="pill pill--green profile-pill">完善资料</view>
+    </view>
+  </view>
+
+  <view class="section-title">健康档案</view>
+  <view class="card menu-row" bindtap="openReport">
+    <view class="mini-icon mini-icon--green"></view>
+    <view class="menu-copy">
+      <view class="h3">历史报告</view>
+      <view class="caption">舌象、面象、体质记录</view>
+    </view>
+    <view class="arrow">›</view>
+  </view>
+  <view class="card menu-row">
+    <view class="mini-icon mini-icon--blue"></view>
+    <view class="menu-copy">
+      <view class="h3">我的方案</view>
+      <view class="caption">当前执行中的健康计划</view>
+    </view>
+    <view class="arrow">›</view>
+  </view>
+  <view class="card menu-row" bindtap="openChatHistory">
+    <view class="mini-icon mini-icon--coral"></view>
+    <view class="menu-copy">
+      <view class="h3">问询记录</view>
+      <view class="caption">AI 会话与上下文管理</view>
+    </view>
+    <view class="arrow">›</view>
+  </view>
+
+  <view class="section-title">设置</view>
+  <view class="card">
+    <view class="h3">后端地址</view>
+    <input
+      class="input setting-input"
+      value="{{baseUrlDraft}}"
+      placeholder="http://192.168.x.x:5000"
+      bindinput="handleBaseUrlInput"
+    />
+    <view class="row setting-actions">
+      <button class="button button--ghost" bindtap="saveBaseUrl">保存地址</button>
+      <button
+        class="button button--primary"
+        bindtap="testConnection"
+        loading="{{connectionTesting}}"
+        disabled="{{connectionTesting}}"
+      >
+        测试连接
+      </button>
+    </view>
+    <view class="notice" wx:if="{{connectionStatus}}">{{connectionStatus}}</view>
+    <view class="error" wx:if="{{errorMessage}}">{{errorMessage}}</view>
+  </view>
+  <app-tabbar active="mine" />
+</view>
